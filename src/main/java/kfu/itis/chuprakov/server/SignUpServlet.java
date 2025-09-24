@@ -20,12 +20,19 @@ public class SignUpServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (login == null || password == null) {
-            resp.sendRedirect("sign_up.html");
+        if (login == null || login.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            resp.sendRedirect("/sign_up");
+            return;
         }
+
+        if (UserStorage.userExists(login)) {
+            resp.sendRedirect("/sign_up");
+            return;
+        }
+
 
         UserStorage.addUser(login, password);
 
-        resp.sendRedirect("login.html");
+        resp.sendRedirect("/login");
     }
 }

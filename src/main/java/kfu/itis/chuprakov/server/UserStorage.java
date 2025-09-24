@@ -10,7 +10,12 @@ public class UserStorage {
         users.put(login, password);
     }
 
-    public static Map<String, String> getUsers() {
-        return new HashMap<>(users);
+    public static boolean isValidUser(String login, String password) {
+        String password1 = users.get(login);
+        return password1 != null && password1.equals(password);
+    }
+
+    public static boolean userExists(String login) {
+        return users.containsKey(login);
     }
 }

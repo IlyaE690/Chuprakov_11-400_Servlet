@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (UserStorage.getUsers().containsKey(login) && UserStorage.getUsers().get(login).equals(password)) {
+        if (UserStorage.isValidUser(login, password)) {
             HttpSession session = req.getSession();
             session.setAttribute("user", login);
             session.setMaxInactiveInterval(60 * 60);
