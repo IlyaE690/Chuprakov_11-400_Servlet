@@ -12,7 +12,11 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.sendRedirect("sign_up.html");
+        try {
+            req.getRequestDispatcher("sign_up.ftl").forward(req, resp);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -21,12 +25,12 @@ public class SignUpServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         if (login == null || login.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-            resp.sendRedirect("/sign_up");
+            req.getRequestDispatcher("sign_up.ftl").forward(req, resp);
             return;
         }
 
         if (UserStorage.userExists(login)) {
-            resp.sendRedirect("/sign_up");
+            req.getRequestDispatcher("sign_up.ftl").forward(req, resp);
             return;
         }
 

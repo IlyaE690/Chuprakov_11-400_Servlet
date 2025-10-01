@@ -1,5 +1,6 @@
 package kfu.itis.chuprakov.server;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +13,14 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.sendRedirect("login.html");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        HttpSession session = req.getSession(false);
+        if (session != null && session.getAttribute("user") != null) {
+            resp.sendRedirect("/main");
+            return;
+        }
+
+        req.getRequestDispatcher("login.ftl").forward(req, resp);
     }
 
     @Override
@@ -30,11 +37,14 @@ public class LoginServlet extends HttpServlet {
             cookie.setMaxAge(60 * 60);
             resp.addCookie(cookie);
 
-            resp.sendRedirect("main.jsp");
+            resp.sendRedirect("/main");
         } else {
-            resp.sendRedirect("/login");
+
+            try {
+                req.getRequestDispatcher("login.ftl").forward(req, resp);
+            } catch (ServletException e) {
+                throw new RuntimeException(e);
+            }
         }
-
     }
-
 }
