@@ -8,7 +8,8 @@
 </head>
 
 <body>
-
+<p>Уже есть аккаунт</p>
+<br>
 <form method="post" action="/login">
     Login:
     <input type="text" name="login" placeholder="type your login here">
@@ -18,6 +19,8 @@
     <input type="submit" value="login">
 </form>
 
+<br>
+<p><a href="/sign_up">Зарегистрироваться</a></p>
 </body>
 
 </html>
