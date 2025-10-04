@@ -10,8 +10,15 @@
 <body>
 
 <form method="post" action="/sign_up">
+    Name:
+    <input type="text" name = "name" placeholder="type your data here">
+    <br>
+    LastName:
+    <input type="text" name ="lastname">
+    <br>
     Login:
-    <input type="text" name="login" placeholder="type your login here">
+    <input type="text" name="login">
+    <br>
     Password:
     <input type="password" name="password">
     <br>

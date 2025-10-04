@@ -1,5 +1,8 @@
 package kfu.itis.chuprakov.server;
 
+import kfu.itis.chuprakov.service.UserService;
+import kfu.itis.chuprakov.service.impl.UserServiceImpl;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -11,6 +14,8 @@ import java.io.IOException;
 
 @WebServlet(name = "Login", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+
+    private final UserService userService = new UserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -28,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (UserStorage.isValidUser(login, password)) {
+        if (userService.authenticate(login, password)) {
             HttpSession session = req.getSession();
             session.setAttribute("user", login);
             session.setMaxInactiveInterval(60 * 60);

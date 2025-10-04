@@ -1,7 +1,11 @@
 package kfu.itis.chuprakov.server;
 
 
+import kfu.itis.chuprakov.dao.UserDao;
+import kfu.itis.chuprakov.dao.impl.UserDaoImpl;
 import kfu.itis.chuprakov.dto.UserDto;
+import kfu.itis.chuprakov.service.UserService;
+import kfu.itis.chuprakov.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,9 +18,12 @@ import java.util.List;
 @WebServlet(name = "User", urlPatterns = "/user")
 public class UserServlet extends HttpServlet {
 
+    private final UserService userService = new UserServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", List.of(new UserDto("Ivan", 100, "pro100Ivan")));
+        List<UserDto> users = userService.getAll();
+        req.setAttribute("users", users);
         req.getRequestDispatcher("users.ftl").forward(req, resp);
     }
 }
