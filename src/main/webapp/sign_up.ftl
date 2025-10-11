@@ -29,7 +29,7 @@
     <input type="password" name="password" placeholder="Type your password here" required>
     <br><br>
 
-    <input type="submit" value="Sign up">
+    <input type="submit" id="signup-btn" value="Sign up">
 </form>
 
 <script>
@@ -42,8 +42,16 @@
         timeout = setTimeout(() => {
             $.get("/ajax/sign_up?login=" + login, function (response) {
                 $("#login-status").text(response);
+
+                if (response === "Login already exists!") {
+                    $("#signup-btn").prop('disabled', true);
+                } else {
+                    $("#signup-btn").prop('disabled', false);
+                }
             });
         }, 500);
+
+
 
     })
 </script>
