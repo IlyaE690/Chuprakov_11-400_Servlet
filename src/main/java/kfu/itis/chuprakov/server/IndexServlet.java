@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Index", urlPatterns = {"", "/"})
+@WebServlet(name = "Index", urlPatterns = {""})
 public class IndexServlet extends HttpServlet {
 
     @Override
