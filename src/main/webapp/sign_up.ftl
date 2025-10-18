@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Sign up page</title>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
 
-<form method="post" action="/sign_up">
+<form method="post" action="/sign_up" enctype="multipart/form-data">
     Name:
     <input type="text" name="name" placeholder="Type your name here" required>
     <br><br>
@@ -29,6 +26,10 @@
     <input type="password" name="password" placeholder="Type your password here" required>
     <br><br>
 
+    <P>Upload Photo</P>
+    <input type="file" name="image" accept="image/*" required>
+    <br><br>
+
     <input type="submit" id="signup-btn" value="Sign up">
 </form>
 
@@ -36,9 +37,9 @@
     var timeout;
 
     $(document).on("input", "#login-input", function (){
-        login = $(this).val();
+        var login = $(this).val();
 
-        clearTimeout();
+        clearTimeout(timeout);
         timeout = setTimeout(() => {
             $.get("/ajax/sign_up?login=" + login, function (response) {
                 $("#login-status").text(response);
@@ -50,12 +51,8 @@
                 }
             });
         }, 500);
-
-
-
-    })
+    });
 </script>
 
 </body>
-
 </html>

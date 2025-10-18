@@ -20,10 +20,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(String name, String lastname, String login, String password) {
+    public void registerUser(String name, String lastname, String login, String password, String path) {
         String hashedPassword = PasswordUtil.encrypt(password);
 
-        User user = new User(null, name, lastname, login, hashedPassword);
+        User user = new User(null, name, lastname, login, hashedPassword, path);
         userDao.save(user);
     }
 
@@ -44,10 +44,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserByLogin(String login) {
+    public User getUserByLogin(String login) {
         User user = userDao.getByLogin(login);
         if (user != null) {
-            return new UserDto(user.getName(), user.getLogin());
+            return new User(user.getId(), user.getName(), user.getLastname(), user.getLogin(), user.getPassword(), user.getPath());
         }
         return null;
     }

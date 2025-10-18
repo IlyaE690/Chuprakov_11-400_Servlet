@@ -1,5 +1,7 @@
 package kfu.itis.chuprakov.server;
 
+import kfu.itis.chuprakov.entity.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,14 +15,15 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             resp.sendRedirect("/login");
             return;
         }
 
-        String username = (String) session.getAttribute("user");
-        req.setAttribute("username", username);
+        User user = (User) session.getAttribute("user");
+
+        req.setAttribute("user", user);
 
         req.getRequestDispatcher("main.ftl").forward(req, resp);
     }

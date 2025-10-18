@@ -1,5 +1,6 @@
 package kfu.itis.chuprakov.server;
 
+import kfu.itis.chuprakov.entity.User;
 import kfu.itis.chuprakov.service.UserService;
 import kfu.itis.chuprakov.service.impl.UserServiceImpl;
 
@@ -34,8 +35,10 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         if (userService.authenticate(login, password)) {
+            User user = userService.getUserByLogin(login);
+
             HttpSession session = req.getSession();
-            session.setAttribute("user", login);
+            session.setAttribute("user", user);
             session.setMaxInactiveInterval(60 * 60);
 
             Cookie cookie = new Cookie("user", login);
@@ -44,8 +47,8 @@ public class LoginServlet extends HttpServlet {
 
             resp.sendRedirect("/main");
         } else {
-
             try {
+                req.setAttribute("error", "Invalid login or password");
                 req.getRequestDispatcher("login.ftl").forward(req, resp);
             } catch (ServletException e) {
                 throw new RuntimeException(e);
